@@ -1,6 +1,6 @@
 <template>
   <div class="grid">
-    <!-- Gamepad Slot -->
+    <!-- Gamepad -->
     <GamePad />
   </div>
 </template>
