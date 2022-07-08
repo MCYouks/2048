@@ -1,18 +1,11 @@
 <template>
   <div class="section">
-    <button @click="toggle()">Toggle color mode</button>
-    {{ isDark }}
+    <colorModeToggle />
   </div>
 </template>
 
 <script setup>
-import { useDark, useToggle } from "@vueuse/core";
-
-// Vueuse - Dark API
-const isDark = useDark({ attribute: "color-mode" });
-
-// Vueuse - Toggle API
-const toggle = useToggle(isDark);
+import ColorModeToggle from "@/components/ColorModeToggle.vue";
 </script>
 
 <style lang="scss">
