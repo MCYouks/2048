@@ -1,11 +1,16 @@
 <template>
   <div class="section">
-    <colorModeToggle />
+    <!-- Grid Container -->
+    <GameContainer />
+
+    <!-- Color Mode Toggle -->
+    <ColorModeToggle />
   </div>
 </template>
 
 <script setup>
 import ColorModeToggle from "@/components/ColorModeToggle.vue";
+import GameContainer from "@/components/GameContainer.vue";
 </script>
 
 <style lang="scss">
