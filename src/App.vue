@@ -1,7 +1,7 @@
 <template>
   <div class="section">
     <!-- Grid Container -->
-    <GameContainer />
+    <GameContainer @click="addRandomTile()" />
 
     <!-- Color Mode Toggle -->
     <ColorModeToggle />
@@ -11,6 +11,28 @@
 <script setup>
 import ColorModeToggle from "@/components/ColorModeToggle.vue";
 import GameContainer from "@/components/GameContainer.vue";
+import { onKeyStroke } from "@vueuse/core";
+import { game as Game } from "@/utils/game.js";
+
+// Game Utils
+const { addRandomTile, move } = Game();
+
+// Vueuse - Keystroke API
+onKeyStroke("ArrowUp", () => {
+  move("up");
+});
+
+onKeyStroke("ArrowDown", () => {
+  move("down");
+});
+
+onKeyStroke("ArrowLeft", () => {
+  move("left");
+});
+
+onKeyStroke("ArrowRight", () => {
+  move("right");
+});
 </script>
 
 <style lang="scss">

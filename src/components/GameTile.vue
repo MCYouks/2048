@@ -2,7 +2,11 @@
   <transition name="tile" appear>
     <div
       class="tile"
-      :style="`transform: translate(${tile.x * 100}%, ${tile.y * 100}%)`"
+      :style="{
+        transform: `translate(${tile.x * 100}%, ${tile.y * 100}%)`,
+        width: `calc(100% / ${size})`,
+        height: `calc(100% / ${size})`,
+      }"
     >
       <!-- Main -->
       <div class="tile__main" :class="`points-${tile.points}`">
@@ -13,19 +17,17 @@
 </template>
 
 <script setup>
-import { useStoreGame } from "@/stores/game.js";
-import { storeToRefs } from "pinia";
-
 // Props
 defineProps({
   tile: {
     type: Object,
     required: true,
   },
+  size: {
+    type: Number,
+    required: true,
+  },
 });
-
-// Store Game API
-const { size } = storeToRefs(useStoreGame());
 </script>
 
 <style lang="scss" scoped>
@@ -34,8 +36,6 @@ const { size } = storeToRefs(useStoreGame());
   top: 0;
   left: 0;
   padding: 4px;
-  width: calc(100% / v-bind("size"));
-  height: calc(100% / v-bind("size"));
   user-select: none;
 
   &__main {
