@@ -114,6 +114,8 @@ export const game = function () {
     // Setup random cell
     const cell = getRandomAvailableCell();
 
+    console.log({ cell });
+
     // Check if cell exists
     if (cell) {
       store.addTile({ ...cell, points: Math.random() < 0.9 ? 2 : 4 });
@@ -132,6 +134,9 @@ export const game = function () {
 
     // Setup vector
     const vector = vectors[direction];
+
+    // Setup moved variable
+    let moved = false;
 
     // Iterate over each cell
     eachCell(({ x, y }) => {
@@ -186,15 +191,18 @@ export const game = function () {
           // Update next tile
           store.replaceTile(nextTileIndex, { ...nextTile, toRemove: true });
 
-          // Setup new tile
-          const newTile = {
+          // Setup merged tile
+          const mergedTile = {
             ...nextCell,
             merged: true,
             points: tile.points * 2,
           };
 
           // Add new tile
-          store.addTile(newTile);
+          store.addTile(mergedTile);
+
+          // Update moved tracker
+          moved = true;
         }
 
         // Otherwise
@@ -204,9 +212,18 @@ export const game = function () {
 
           // Update tile
           store.replaceTile(tileIndex, newTile);
+
+          // Update moved tracker
+          moved = true;
         }
       }
     });
+
+    // Check if movement has been completed
+    if (moved) {
+      // Add new random tile
+      addRandomTile();
+    }
   };
 
   return {
