@@ -121,6 +121,15 @@ export const game = function () {
   };
 
   const move = function (direction) {
+    // Clean tile
+    for (const tile of store.tiles) {
+      // Setup tile index
+      const index = getTileIndex(tile);
+
+      if (tile.toRemove) store.removeTile(index);
+      else store.replaceTile(index, { ...tile, merged: false });
+    }
+
     // Setup vector
     const vector = vectors[direction];
 
@@ -152,16 +161,40 @@ export const game = function () {
         // Setup previous cell
         const prevCell = getPrevCell(nextCell, vector);
 
+        // Setup next tile index
+        const nextTileIndex = getTileIndex(nextCell);
+
         // Setup next tile
-        const nextTile = getTile(nextCell);
+        const nextTile = store.tiles[nextTileIndex];
+
+        // Setup is meargeable boolean
+        const isMergeable =
+          nextTile &&
+          !nextTile.merged &&
+          !nextTile.toRemove &&
+          nextTile.points === tile.points;
 
         // Check if next tile exists
-        if (nextTile) {
-          // Setup new tile
-          const newTile = { ...tile, ...prevCell };
-
+        if (isMergeable) {
           // Update tile
-          store.replaceTile(tileIndex, newTile);
+          store.replaceTile(tileIndex, {
+            ...tile,
+            ...nextCell,
+            toRemove: true,
+          });
+
+          // Update next tile
+          store.replaceTile(nextTileIndex, { ...nextTile, toRemove: true });
+
+          // Setup new tile
+          const newTile = {
+            ...nextCell,
+            merged: true,
+            points: tile.points * 2,
+          };
+
+          // Add new tile
+          store.addTile(newTile);
         }
 
         // Otherwise

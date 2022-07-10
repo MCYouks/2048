@@ -3,6 +3,8 @@
     <!-- Grid Container -->
     <GameContainer @click="addRandomTile()" />
 
+    {{ tiles }}
+
     <!-- Color Mode Toggle -->
     <ColorModeToggle />
   </div>
@@ -13,6 +15,11 @@ import ColorModeToggle from "@/components/ColorModeToggle.vue";
 import GameContainer from "@/components/GameContainer.vue";
 import { onKeyStroke } from "@vueuse/core";
 import { game as Game } from "@/utils/game.js";
+import { useStoreGame } from "@/stores/game.js";
+import { storeToRefs } from "pinia";
+
+// Store Game API
+const { tiles } = storeToRefs(useStoreGame());
 
 // Game Utils
 const { addRandomTile, move } = Game();

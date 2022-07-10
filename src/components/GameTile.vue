@@ -1,6 +1,7 @@
 <template>
   <transition name="tile" appear>
     <div
+      v-if="!tile.toRemove"
       class="tile"
       :style="{
         transform: `translate(${tile.x * 100}%, ${tile.y * 100}%)`,
@@ -45,8 +46,9 @@ defineProps({
     height: 100%;
     width: 100%;
     border-radius: 8px;
-    font-size: 32px;
+    font-size: 40px;
     font-weight: bold;
+    box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.15);
 
     &.points-2 {
       background: turquoise;

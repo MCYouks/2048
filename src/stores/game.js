@@ -15,6 +15,12 @@ export const useStoreGame = defineStore("game", () => {
   };
 
   const removeTile = function (index) {
+    console.log({
+      index,
+      tiles: tiles.value,
+      newTiles: remove(tiles.value, index),
+    });
+
     // Update tiles
     tiles.value = remove(tiles.value, index);
   };
