@@ -1,24 +1,39 @@
 <template>
   <div class="section">
+    <!-- Score Container -->
+    <ScoreContainer :style="{ marginTop: '64px' }" />
+
     <!-- Grid Container -->
-    <GameContainer />
+    <GameContainer :style="{ marginTop: '48px' }" />
 
     <!-- Color Mode Toggle -->
     <ColorModeToggle />
+
+    <!-- Restart -->
+    <div @click="restart()">Restart</div>
   </div>
 </template>
 
 <script setup>
+import ScoreContainer from "@/components/ScoreContainer.vue";
 import ColorModeToggle from "@/components/ColorModeToggle.vue";
 import GameContainer from "@/components/GameContainer.vue";
 import { onKeyStroke } from "@vueuse/core";
 import { game as Game } from "@/utils/game.js";
 import { onMounted } from "vue";
+import { useStoreGame } from "@/stores/game.js";
+import { storeToRefs } from "pinia";
+
+// Store Game API
+const { tiles } = storeToRefs(useStoreGame());
 
 // Game Utils
-const { addRandomTile, move } = Game();
+const { move, restart } = Game();
 
-onMounted(() => addRandomTile());
+onMounted(() => {
+  // If no tiles
+  if (!tiles.value.length) restart();
+});
 
 // Vueuse - Keystroke API
 onKeyStroke("ArrowUp", () => {

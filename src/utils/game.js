@@ -114,8 +114,6 @@ export const game = function () {
     // Setup random cell
     const cell = getRandomAvailableCell();
 
-    console.log({ cell });
-
     // Check if cell exists
     if (cell) {
       store.addTile({ ...cell, points: Math.random() < 0.9 ? 2 : 4 });
@@ -191,15 +189,21 @@ export const game = function () {
           // Update next tile
           store.replaceTile(nextTileIndex, { ...nextTile, toRemove: true });
 
+          // Setup points
+          const points = tile.points * 2;
+
           // Setup merged tile
           const mergedTile = {
             ...nextCell,
             merged: true,
-            points: tile.points * 2,
+            points,
           };
 
           // Add new tile
           store.addTile(mergedTile);
+
+          // Augment score
+          store.augmentScore(points);
 
           // Update moved tracker
           moved = true;
@@ -226,6 +230,21 @@ export const game = function () {
     }
   };
 
+  const restart = function () {
+    // Clear tiles
+    store.tiles = [];
+
+    // Clear score
+    store.score = 0;
+
+    // Clear pointslIST
+    store.pointsList = [];
+
+    // Generate 2 random tiles
+    addRandomTile();
+    addRandomTile();
+  };
+
   return {
     // Methods
     eachCell,
@@ -233,5 +252,6 @@ export const game = function () {
     isTileMatchAvailable,
     move,
     addRandomTile,
+    restart,
   };
 };
