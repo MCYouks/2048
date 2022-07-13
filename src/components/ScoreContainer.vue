@@ -31,7 +31,6 @@ const { score, pointsList } = storeToRefs(useStoreGame());
   border-radius: 5px;
   background: var(--color-background-soft);
   box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.15);
-  color: #fff;
 
   &__text {
     font-size: 24px;
